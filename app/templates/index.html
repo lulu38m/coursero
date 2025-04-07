@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Coursero Code Rating System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Style global */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background-color: #f8f8f8;
+      color: #333;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    p.subtitle {
+      color: #666;
+      margin-bottom: 2rem;
+    }
+
+    /* Section des cartes */
+    .card-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      width: 280px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .card h2 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .card p {
+      color: #666;
+      margin-bottom: 1.5rem;
+    }
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      font-weight: 500;
+      transition: background-color 0.3s ease;
+    }
+    .btn-primary {
+      background-color: #000;
+      color: #fff;
+      border: 1px solid #000;
+    }
+    .btn-primary:hover {
+      background-color: #333;
+    }
+    .btn-outline {
+      background-color: #fff;
+      color: #000;
+      border: 1px solid #000;
+    }
+    .btn-outline:hover {
+      background-color: #f2f2f2;
+    }
+    .arrow-right {
+      margin-left: 0.5rem;
+      display: inline-block;
+      border: solid #000;
+      border-width: 0 2px 2px 0;
+      padding: 3px;
+      transform: rotate(-45deg);
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Coursero Code Rating System</h1>
+  <p class="subtitle">
+    Évaluez automatiquement les soumissions de code des étudiants en les comparant à des implémentations de référence.
+  </p>
+
+  <div class="card-section">
+    <!-- Carte 1 : Évaluation -->
+    <div class="card">
+      <h2>Évaluer des soumissions</h2>
+      <p>Sélectionnez un cours, un exercice et un langage, puis téléchargez vos fichiers.</p>
+      <a href="submission.html" class="btn btn-primary">
+        Commencer l’évaluation
+      </a>
+    </div>
+
+    <!-- Carte 2 : Résultats -->
+    <div class="card">
+      <h2>Voir les résultats</h2>
+      <p>Consultez l’historique des évaluations précédentes et leurs scores détaillés.</p>
+      <a href="results.html" class="btn btn-outline">
+        Voir les résultats
+        <span class="arrow-right"></span>
+      </a>
+    </div>
+  </div>
+</div>
+</body>
+</html>
