@@ -93,7 +93,7 @@ def submit_file():
     flash("Fichier enregistré localement.", "info")
 
     # Définir le chemin cible sur la VM de correction (par exemple, dans /tmp/)
-    remote_directory = "/tmp/"
+    remote_directory = "/etc/coursero/"
     # On transmet directement le répertoire de destination
     # Le fichier sera placé sous remote_directory + filename
     if send_file_scp(local_file_path, remote_directory):
