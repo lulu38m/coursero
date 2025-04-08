@@ -6,6 +6,7 @@ from sqlalchemy import text
 import os
 from paramiko import SSHClient, AutoAddPolicy
 from scp import SCPClient
+from app.models import Submission
 
 # Définir le dossier où les fichiers uploadés seront stockés localement
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
@@ -74,7 +75,6 @@ def submission():
 
 @app.route('/submit', methods=['POST'])
 def submit_file():
-    # Récupération des données du formulaire
     course = request.form.get('course')
     exercise = request.form.get('exercise')
     language = request.form.get('language')
@@ -84,32 +84,33 @@ def submit_file():
         flash("Aucun fichier sélectionné.", "danger")
         return redirect(url_for('submission'))
 
-    # Utiliser directement le nom du fichier tel quel
     filename = file.filename
     local_file_path = os.path.join(UPLOAD_FOLDER, filename)
-
-    # Enregistrer le fichier en local
     file.save(local_file_path)
     flash("Fichier enregistré localement.", "info")
 
-    # Définir le chemin cible sur la VM de correction (par exemple, dans /tmp/)
     remote_directory = "/etc/coursero"
-    # On transmet directement le répertoire de destination
-    # Le fichier sera placé sous remote_directory + filename
     if send_file_scp(local_file_path, remote_directory):
         flash("Fichier envoyé à la VM de correction.", "success")
     else:
         flash("Erreur lors de l'envoi du fichier.", "danger")
 
-    # Ici, ajoutez la logique pour enregistrer la soumission dans la base de données si nécessaire
+    new_submission = Submission(
+        course=course,
+        exercise=exercise,
+        language=language
+    )
+    db.session.add(new_submission)
+    db.session.commit()
 
+    flash("Soumission enregistrée avec succès.", "success")
     return redirect(url_for('index'))
 
 
 @app.route('/results')
 def results():
-    # Logique spécifique pour afficher les résultats des corrections
-    return render_template('results.html')
+    submissions = Submission.query.all()
+    return render_template('results.html', submissions=submissions)
 
 
 def send_file_scp(local_file_path, remote_directory):

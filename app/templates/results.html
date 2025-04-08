@@ -111,26 +111,24 @@
             Consultez les résultats détaillés de vos soumissions précédentes.
         </p>
 
-        <!-- Exemple de carte de résultat -->
-        <div class="result-card">
-            <div class="result-info">
-                <h2>CS101: Introduction à la Programmation - Exercice 1</h2>
-                <p>Langage : Python<br>Soumis le : 2023-04-01 10:30:45</p>
+        {% for submission in submissions %}
+            <div class="result-card">
+                <div class="result-info">
+                    <h2>{{ submission.course }} - {{ submission.exercise }}</h2>
+                    <p>Langage : {{ submission.language }}<br>Soumis le : {{ submission.submission_date.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                </div>
+                <div>
+                    {% if submission.score >= 80 %}
+                        <span class="score-badge score-green">Score: {{ submission.score }}%</span>
+                    {% else %}
+                        <span class="score-badge score-orange">Score: {{ submission.score }}%</span>
+                    {% endif %}
+                </div>
             </div>
-            <div>
-                <span class="score-badge score-green">Score: 100%</span>
-            </div>
-        </div>
+        {% else %}
+            <p>Aucune soumission trouvée.</p>
+        {% endfor %}
 
-        <div class="result-card">
-            <div class="result-info">
-                <h2>CS201: Structures de Données - Exercice 2</h2>
-                <p>Langage : C<br>Soumis le : 2023-04-01 14:15:30</p>
-            </div>
-            <div>
-                <span class="score-badge score-orange">Score: 67%</span>
-            </div>
-        </div>
     </div>
 </body>
 </html>
