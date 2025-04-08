@@ -8,7 +8,7 @@ def index():
     # Redirige vers la page de connexion ou une page d'accueil personnalisée si l'utilisateur est connecté
     return redirect(url_for('login'))
 
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/register', methods=['POST'])
 def register():
     if request.method == 'POST':
         fullname = request.form.get('fullname')
@@ -30,7 +30,7 @@ def register():
 
     return render_template('register.html')
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['POST'])
 def login():
     if request.method == 'POST':
         email = request.form.get('email')
