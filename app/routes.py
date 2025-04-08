@@ -116,6 +116,8 @@ def send_file_scp(local_file_path, remote_directory):
     try:
         ssh = SSHClient()
         ssh.load_system_host_keys()
+        ssh.set_missing_host_key_policy(AutoAddPolicy())
+
         ssh.connect(
             hostname='172.16.77.159',
             port=22,
@@ -132,4 +134,5 @@ def send_file_scp(local_file_path, remote_directory):
     except Exception as e:
         print(f"Erreur SCP: {e}")
         return False
+
 
