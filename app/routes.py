@@ -5,7 +5,7 @@ from flask_login import login_user, logout_user, login_required
 from sqlalchemy import text
 
 @app.route('/')
-@login_required
+#@login_required
 def index():
     return render_template('index.html')
 
