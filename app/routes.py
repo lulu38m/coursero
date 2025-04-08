@@ -5,9 +5,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from sqlalchemy import text
 
 @app.route('/')
-@login_required
 def index():
-    # Ici, current_user est rempli s'il est connecté.
     return render_template('index.html')
 
 @app.route('/register', methods=['GET', 'POST'])
