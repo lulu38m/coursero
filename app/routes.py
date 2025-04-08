@@ -53,3 +53,15 @@ def logout():
     logout_user()
     flash('Déconnexion réussie.', 'success')
     return redirect(url_for('login'))
+
+@app.route('/dbtest')
+def dbtest():
+    try:
+        # Tente d'exécuter une requête simple
+        result = db.engine.execute("SELECT 1")
+        # Facultatif : récupérer le résultat
+        value = result.scalar()
+        return f"Connexion à la base de données réussie. Résultat du test : {value}"
+    except Exception as e:
+        return f"Échec de la connexion à la base de données : {e}"
+
