@@ -1,23 +1,12 @@
-from flask import render_template, redirect, url_for, flash, request, current_app
+from flask import render_template, redirect, url_for, flash, request
 from app import app, db, bcrypt
 from app.models import User
 from flask_login import login_user, logout_user, login_required, current_user
 from sqlalchemy import text
-import os
-from werkzeug.utils import secure_filename
-from paramiko import SSHClient, AutoAddPolicy
-from scp import SCPClient
-
-# Définir le dossier où les fichiers uploadés seront stockés localement
-UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
-
 
 @app.route('/')
 def index():
     return render_template('index.html')
-
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -41,7 +30,6 @@ def register():
 
     return render_template('register.html')
 
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -59,7 +47,6 @@ def login():
 
     return render_template('login.html')
 
-
 @app.route('/logout')
 def logout():
     logout_user()
@@ -67,73 +54,29 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route('/submission', methods=['GET'])
+@app.route('/submission')
 def submission():
-    # Affiche uniquement le formulaire de dépôt de fichier
+    # enregistrer le fichier en local ( dans dossier uploads dossier uploads )
+    # appeler la fonction send_file_scp
     return render_template('submission.html')
-
-
-@app.route('/submit', methods=['POST'])
-def submit_file():
-    # Récupération des données du formulaire
-    course = request.form.get('course')
-    exercise = request.form.get('exercise')
-    language = request.form.get('language')
-    file = request.files.get('file')
-
-    if not file:
-        flash("Aucun fichier sélectionné.", "danger")
-        return redirect(url_for('submission'))
-
-    # Générer un nom de fichier sécurisé pour éviter les problèmes
-    filename = secure_filename(file.filename)
-    local_file_path = os.path.join(UPLOAD_FOLDER, filename)
-
-    # Enregistrer le fichier en local
-    file.save(local_file_path)
-    flash("Fichier enregistré localement.", "info")
-
-    # Définir le chemin cible sur la VM de correction (par exemple, dans /tmp/)
-    remote_file_path = f"/tmp/{filename}"
-
-    # Appeler la fonction qui enverra le fichier via SCP
-    try:
-        send_file_scp(local_file_path, remote_file_path)
-        flash("Fichier envoyé à la VM de correction.", "success")
-    except Exception as e:
-        flash(f"Erreur lors de l'envoi du fichier: {e}", "danger")
-
-    # Ici, vous pouvez ajouter la logique pour enregistrer la soumission dans la base de données,
-    # par exemple en créant un enregistrement Submission avec course, exercise, langage, statut, date, score, etc.
-
-    return redirect(url_for('index'))
-
 
 @app.route('/results')
 def results():
-    # Logique spécifique pour afficher les résultats des corrections
+    # Vous pouvez ajouter ici la logique spécifique à la page des résultats
     return render_template('results.html')
 
-
+# fonction pour envoyer le fichier via SCP
 def send_file_scp(local_file_path, remote_file_path):
     """
-    Envoie le fichier spécifié par local_file_path à la VM de correction
-    via SCP, en le sauvegardant à l'emplacement remote_file_path sur la VM.
-
-    Modifiez les paramètres de connexion SSH ci-dessous en fonction de votre environnement.
+    # remote_file_path = "/tmp
+    # Implémentez ici la logique pour envoyer le fichier via SCP
+    # connection en ssh
+    # ssh = SSHClient()
+    # ssh.load_system_host_keys()
+    # ssh.connect(hostname, port, username, password)
+    # scp = SCPClient(ssh.get_transport()
+    # scp.put(local_file_path, remote_file_path)
+    # scp.close()
     """
-    # Paramètres de connexion à la VM de correction
-    hostname = '172.16.77.159'
-    # Remplacez par l'IP ou le nom d'hôte de la VM de correction
-    port = 22  # Port SSH (généralement 22)
-    username = 'admincorrection'  # Nom d'utilisateur pour la connexion SSH
-    password = 'Password'  # Mot de passe pour la connexion SSH
 
-    ssh = SSHClient()
-    ssh.set_missing_host_key_policy(AutoAddPolicy())
-    ssh.connect(hostname, port=port, username=username, password=password)
-
-    with SCPClient(ssh.get_transport()) as scp:
-        scp.put(local_file_path, remote_file_path)
-
-    ssh.close()
+    pass
