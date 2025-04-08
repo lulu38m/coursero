@@ -14,11 +14,6 @@ def register():
         fullname = request.form.get('fullname')
         email = request.form.get('email')
         password = request.form.get('password')
-        confirm_password = request.form.get('confirm_password')
-
-        if password != confirm_password:
-            flash('Les mots de passe ne correspondent pas.', 'danger')
-            return redirect(url_for('register'))
 
         # Vérifier si l'adresse email est déjà utilisée
         user = User.query.filter_by(email=email).first()
