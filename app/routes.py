@@ -48,8 +48,19 @@ def login():
     return render_template('login.html')
 
 @app.route('/logout')
-@login_required
 def logout():
     logout_user()
     flash('Déconnexion réussie.', 'success')
     return redirect(url_for('login'))
+
+
+@app.route('/submission')
+def submission():
+    # Vous pouvez ajouter ici la logique spécifique à la page de soumission
+    return render_template('submission.html')
+
+@app.route('/results')
+def results():
+    # Vous pouvez ajouter ici la logique spécifique à la page des résultats
+    return render_template('results.html')
+

@@ -2,7 +2,6 @@ from app import db, login_manager
 from flask_login import UserMixin
 
 @login_manager.user_loader
-@login_manager.user_loader
 def load_user(user_id):
     user = User.query.get(int(user_id))
     # Ajoutez un log pour vérifier que l'utilisateur est bien chargé
