@@ -12,9 +12,28 @@
             background-color: #f8f8f8;
             color: #333;
         }
+        header {
+            position: fixed;
+            top: 0;
+            right: 0;
+            padding: 1rem;
+            z-index: 1000;
+        }
+        .btn-home {
+            text-decoration: none;
+            background: #000;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+        .btn-home:hover {
+            background: #333;
+        }
         .container {
             max-width: 600px;
-            margin: 0 auto;
+            margin: 4rem auto 0; /* espace en haut pour le header fixe */
             padding: 2rem 1rem;
         }
         h1 {
@@ -64,38 +83,41 @@
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>Soumission d'exercice</h1>
-    <div class="card">
-        <form action="/submit" method="POST" enctype="multipart/form-data">
-            <div>
-                <label for="course">Cours :</label>
-                <select id="course" name="course">
-                    <option value="cours1">Cours 1</option>
-                    <option value="cours2">Cours 2</option>
-                </select>
-            </div>
-            <div>
-                <label for="exercise">Exercice :</label>
-                <select id="exercise" name="exercise">
-                    <option value="ex1">Exercice 1</option>
-                    <option value="ex2">Exercice 2</option>
-                </select>
-            </div>
-            <div>
-                <label for="language">Langage :</label>
-                <select id="language" name="language">
-                    <option value="c">C</option>
-                    <option value="python">Python</option>
-                </select>
-            </div>
-            <div>
-                <label for="file">Télécharger le fichier :</label>
-                <input type="file" id="file" name="file" accept=".c,.py" required>
-            </div>
-            <button type="submit" class="btn">Envoyer</button>
-        </form>
+    <header>
+        <a href="{{ url_for('index') }}" class="btn-home">Accueil</a>
+    </header>
+    <div class="container">
+        <h1>Soumission d'exercice</h1>
+        <div class="card">
+            <form action="/submit" method="POST" enctype="multipart/form-data">
+                <div>
+                    <label for="course">Cours :</label>
+                    <select id="course" name="course">
+                        <option value="cours1">Cours 1</option>
+                        <option value="cours2">Cours 2</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="exercise">Exercice :</label>
+                    <select id="exercise" name="exercise">
+                        <option value="ex1">Exercice 1</option>
+                        <option value="ex2">Exercice 2</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="language">Langage :</label>
+                    <select id="language" name="language">
+                        <option value="c">C</option>
+                        <option value="python">Python</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="file">Télécharger le fichier :</label>
+                    <input type="file" id="file" name="file" accept=".c,.py" required>
+                </div>
+                <button type="submit" class="btn">Envoyer</button>
+            </form>
+        </div>
     </div>
-</div>
 </body>
 </html>

@@ -12,9 +12,28 @@
             background-color: #f8f8f8;
             color: #333;
         }
+        header {
+            position: fixed;
+            top: 0;
+            right: 0;
+            padding: 1rem;
+            z-index: 1000;
+        }
+        .btn-home {
+            text-decoration: none;
+            background: #000;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+        .btn-home:hover {
+            background: #333;
+        }
         .container {
             max-width: 800px;
-            margin: 0 auto;
+            margin: 4rem auto 0; /* ajouter un margin-top pour éviter que le header fixe ne recouvre le contenu */
             padding: 2rem 1rem;
         }
         h1 {
@@ -26,7 +45,6 @@
             color: #666;
             margin-bottom: 2rem;
         }
-
         /* Cartes de résultats */
         .result-card {
             background: #fff;
@@ -69,7 +87,6 @@
         .score-orange {
             background-color: #fd7e14; /* orange */
         }
-
         .details-button {
             text-decoration: none;
             background: #000;
@@ -85,32 +102,35 @@
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>Évaluation des soumissions</h1>
-    <p class="subtitle">
-        Consultez les résultats détaillés de vos soumissions précédentes.
-    </p>
+    <header>
+        <a href="{{ url_for('index') }}" class="btn-home">Accueil</a>
+    </header>
+    <div class="container">
+        <h1>Évaluation des soumissions</h1>
+        <p class="subtitle">
+            Consultez les résultats détaillés de vos soumissions précédentes.
+        </p>
 
-    <!-- Exemple de carte de résultat -->
-    <div class="result-card">
-        <div class="result-info">
-            <h2>CS101: Introduction à la Programmation - Exercice 1</h2>
-            <p>Langage : Python<br>Soumis le : 2023-04-01 10:30:45</p>
+        <!-- Exemple de carte de résultat -->
+        <div class="result-card">
+            <div class="result-info">
+                <h2>CS101: Introduction à la Programmation - Exercice 1</h2>
+                <p>Langage : Python<br>Soumis le : 2023-04-01 10:30:45</p>
+            </div>
+            <div>
+                <span class="score-badge score-green">Score: 100%</span>
+            </div>
         </div>
-        <div>
-            <span class="score-badge score-green">Score: 100%</span>
+
+        <div class="result-card">
+            <div class="result-info">
+                <h2>CS201: Structures de Données - Exercice 2</h2>
+                <p>Langage : C<br>Soumis le : 2023-04-01 14:15:30</p>
+            </div>
+            <div>
+                <span class="score-badge score-orange">Score: 67%</span>
+            </div>
         </div>
     </div>
-
-    <div class="result-card">
-        <div class="result-info">
-            <h2>CS201: Structures de Données - Exercice 2</h2>
-            <p>Langage : C<br>Soumis le : 2023-04-01 14:15:30</p>
-        </div>
-        <div>
-            <span class="score-badge score-orange">Score: 67%</span>
-        </div>
-    </div>
-</div>
 </body>
 </html>
