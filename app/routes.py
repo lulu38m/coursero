@@ -117,19 +117,30 @@ def send_file_scp(local_file_path, remote_file_path):
     Envoie le fichier spécifié par local_file_path à la VM de correction
     via SCP, en le sauvegardant à l'emplacement remote_file_path sur la VM.
 
+    Les messages de diagnostic sont affichés pour confirmer chaque étape.
     Modifiez les paramètres de connexion SSH ci-dessous en fonction de votre environnement.
     """
     # Paramètres de connexion à la VM de correction
     hostname = '172.16.77.159'  # Remplacez par l'IP ou le nom d'hôte de la VM de correction
-    port = 22  # Port SSH (généralement 22)
+    port = 22                 # Port SSH (généralement 22)
     username = 'admincorrection'  # Nom d'utilisateur pour la connexion SSH
-    password = 'Password'  # Mot de passe pour la connexion SSH
+    password = 'Password'         # Mot de passe pour la connexion SSH
 
-    ssh = SSHClient()
-    ssh.set_missing_host_key_policy(AutoAddPolicy())
-    ssh.connect(hostname, port=port, username=username, password=password)
+    try:
+        print(f"Tentative de connexion SSH à {hostname}:{port} avec l'utilisateur {username}...")
+        ssh = SSHClient()
+        ssh.set_missing_host_key_policy(AutoAddPolicy())
+        ssh.connect(hostname, port=port, username=username, password=password)
+        print("Connexion SSH établie.")
 
-    with SCPClient(ssh.get_transport()) as scp:
-        scp.put(local_file_path, remote_file_path)
+        with SCPClient(ssh.get_transport()) as scp:
+            print(f"Envoi du fichier {local_file_path} vers {remote_file_path}...")
+            scp.put(local_file_path, remote_file_path)
+            print("Transfert effectué avec succès.")
 
-    ssh.close()
+        ssh.close()
+        print("Connexion SSH fermée.")
+    except Exception as e:
+        print("Erreur dans send_file_scp :", e)
+        raise  # On relance l'exception afin qu'elle puisse être gérée en amont
+
