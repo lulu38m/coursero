@@ -1,12 +1,13 @@
 from flask import render_template, redirect, url_for, flash, request
 from app import app, db, bcrypt
 from app.models import User
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 from sqlalchemy import text
 
 @app.route('/')
-#@login_required
+@login_required
 def index():
+    # Ici, current_user est rempli s'il est connecté.
     return render_template('index.html')
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -54,14 +55,3 @@ def logout():
     logout_user()
     flash('Déconnexion réussie.', 'success')
     return redirect(url_for('login'))
-
-# @app.route('/dbtest')
-# def dbtest():
-#     try:
-#         with db.engine.connect() as connection:
-#             result = connection.execute(text("SELECT 1"))
-#             value = result.scalar()
-#         return f"Connexion à la base de données réussie. Résultat du test : {value}"
-#     except Exception as e:
-#         return f"Échec de la connexion à la base de données : {e}"
-
