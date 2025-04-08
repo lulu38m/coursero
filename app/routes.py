@@ -5,9 +5,9 @@ from flask_login import login_user, logout_user, login_required
 from sqlalchemy import text
 
 @app.route('/')
+@login_required
 def index():
-    # Redirige vers la page de connexion ou une page d'accueil personnalisée si l'utilisateur est connecté
-    return redirect(url_for('login'))
+    return render_template('index.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -55,13 +55,13 @@ def logout():
     flash('Déconnexion réussie.', 'success')
     return redirect(url_for('login'))
 
-@app.route('/dbtest')
-def dbtest():
-    try:
-        with db.engine.connect() as connection:
-            result = connection.execute(text("SELECT 1"))
-            value = result.scalar()
-        return f"Connexion à la base de données réussie. Résultat du test : {value}"
-    except Exception as e:
-        return f"Échec de la connexion à la base de données : {e}"
+# @app.route('/dbtest')
+# def dbtest():
+#     try:
+#         with db.engine.connect() as connection:
+#             result = connection.execute(text("SELECT 1"))
+#             value = result.scalar()
+#         return f"Connexion à la base de données réussie. Résultat du test : {value}"
+#     except Exception as e:
+#         return f"Échec de la connexion à la base de données : {e}"
 
