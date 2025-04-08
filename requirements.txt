@@ -4,3 +4,5 @@ Flask-Login
 Flask-Bcrypt
 mysqlclient
 gunicorn
+paramiko
+scp
