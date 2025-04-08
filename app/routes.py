@@ -114,7 +114,7 @@ def results():
 
 def send_file_scp(local_file_path, remote_directory):
     """
-    Envoie le fichier spécifié par local_file_path à la VM de correction,
+    Envoie le fichier spécifié par local_filepath à la VM de correction,
     en le plaçant dans le répertoire remote_directory sur la VM.
 
     Les messages de diagnostic sont affichés pour confirmer chaque étape.
@@ -134,8 +134,9 @@ def send_file_scp(local_file_path, remote_directory):
         print("Connexion SSH établie.")
 
         scp = SCPClient(ssh.get_transport())
-        print(f"Envoi du fichier {local_file_path} dans le répertoire {remote_directory}...")
-        scp.put(local_file_path, remote_directory)
+        remote_file_path = os.path.join(remote_directory, os.path.basename(local_file_path))
+        print(f"Envoi du fichier {local_file_path} vers {remote_file_path}...")
+        scp.put(local_file_path, remote_file_path)
         scp.close()
         ssh.close()
         print("Transfert effectué et connexion SSH fermée.")
