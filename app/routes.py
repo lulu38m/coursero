@@ -2,6 +2,7 @@ from flask import render_template, redirect, url_for, flash, request
 from app import app, db, bcrypt
 from app.models import User
 from flask_login import login_user, logout_user, login_required
+from sqlalchemy import text
 
 @app.route('/')
 def index():
@@ -57,10 +58,9 @@ def logout():
 @app.route('/dbtest')
 def dbtest():
     try:
-        # Tente d'exécuter une requête simple
-        result = db.engine.execute("SELECT 1")
-        # Facultatif : récupérer le résultat
-        value = result.scalar()
+        with db.engine.connect() as connection:
+            result = connection.execute(text("SELECT 1"))
+            value = result.scalar()
         return f"Connexion à la base de données réussie. Résultat du test : {value}"
     except Exception as e:
         return f"Échec de la connexion à la base de données : {e}"
