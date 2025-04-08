@@ -4,7 +4,6 @@ from app.models import User
 from flask_login import login_user, logout_user, login_required, current_user
 from sqlalchemy import text
 import os
-from werkzeug.utils import secure_filename
 from paramiko import SSHClient, AutoAddPolicy
 from scp import SCPClient
 
@@ -85,8 +84,8 @@ def submit_file():
         flash("Aucun fichier sélectionné.", "danger")
         return redirect(url_for('submission'))
 
-    # Générer un nom de fichier sécurisé pour éviter les problèmes
-    filename = secure_filename(file.filename)
+    # Utiliser directement le nom du fichier tel quel
+    filename = file.filename
     local_file_path = os.path.join(UPLOAD_FOLDER, filename)
 
     # Enregistrer le fichier en local
@@ -103,9 +102,7 @@ def submit_file():
     except Exception as e:
         flash(f"Erreur lors de l'envoi du fichier: {e}", "danger")
 
-    # Ici, vous pouvez ajouter la logique pour enregistrer la soumission dans la base de données,
-    # par exemple en créant un enregistrement Submission avec course, exercise, langage, statut, date, score, etc.
-
+    # Ici, ajoutez la logique pour enregistrer la soumission dans la base de données si nécessaire
     return redirect(url_for('index'))
 
 
@@ -123,8 +120,7 @@ def send_file_scp(local_file_path, remote_file_path):
     Modifiez les paramètres de connexion SSH ci-dessous en fonction de votre environnement.
     """
     # Paramètres de connexion à la VM de correction
-    hostname = '172.16.77.159'
-    # Remplacez par l'IP ou le nom d'hôte de la VM de correction
+    hostname = '172.16.77.159'  # Remplacez par l'IP ou le nom d'hôte de la VM de correction
     port = 22  # Port SSH (généralement 22)
     username = 'admincorrection'  # Nom d'utilisateur pour la connexion SSH
     password = 'Password'  # Mot de passe pour la connexion SSH
