@@ -27,4 +27,5 @@ class Submission(db.Model):
     language = db.Column(db.String(50), nullable=False)
     status = db.Column(db.String(50), default='queue', nullable=False)
     score = db.Column(db.Integer, default=0, nullable=False)
+    filename = db.Column(db.String(256), unique=True, nullable=False)
     submission_date = db.Column(db.DateTime, default=datetime.utcnow)
